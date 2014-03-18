@@ -18,13 +18,11 @@ class ReverseActorSpec extends Specification {
 
       import ReverseActor._
 
-//TODO make this test work, uncomment the commented lines below
+      val reverseActor = system.actorOf(props, name)
 
-//      val reverseActor = system.actorOf(props, name)
-//
-//      reverseActor ! Reverse("reverse this!")
-//
-//      expectMsg(ReverseResult("!siht esrever"))
+      reverseActor ! Reverse("reverse this!")
+
+      expectMsg(ReverseResult("!siht esrever"))
 
       expectNoMsg()
 

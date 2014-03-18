@@ -4,13 +4,19 @@ package exercise1
 import akka.actor.{Actor, Props}
 
 object ReverseActor {
-  //TODO define messages for reverse actor here (Reverse, ReverseResult)
-  //TODO define props and name for ReverseActor here
+    sealed trait Message
+    case class Reverse(value: String) extends Message
+    case class ReverseResult(value: String) extends Message
+
+    val props = Props[ReverseActor]
+    val name = "reveseActor"
 }
 
-class ReverseActor { // TODO extend from Actor
+class ReverseActor extends Actor {
   import ReverseActor._
 
-  //TODO write your receive method here, respond with a ReverseResult
+  def receive = {
+      case Reverse(value) => sender ! ReverseResult(value.reverse)
+  }
 
 }
