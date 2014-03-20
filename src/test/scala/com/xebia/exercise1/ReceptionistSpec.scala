@@ -1,7 +1,7 @@
 package com.xebia
 package exercise1
 
-import akka.actor.ActorRefFactory
+import akka.actor.{ActorRefFactory, Props}
 
 import spray.testkit.Specs2RouteTest
 import spray.http.StatusCodes
@@ -17,7 +17,7 @@ class ReceptionistSpec extends Specification
     implicit def actorRefFactory: ActorRefFactory = system
     implicit def executionContext = system.dispatcher
 
-    //TODO implement createChild here as well (hint: you cannot use the context since the context is not available here)
+    def createChild(props: Props, name: String) = system.actorOf(props, name)
   }
 
   "The Receptionist" should {

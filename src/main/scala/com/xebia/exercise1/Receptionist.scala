@@ -24,7 +24,7 @@ trait ReverseRoute extends HttpService {
   // we need this so we can use Futures and Timeout
   implicit def executionContext: ExecutionContext
 
-  def createChild(props:Props, name:String): ActorRef
+  def createChild(props: Props, name: String): ActorRef
 
   val reverseActor = createChild(ReverseActor.props, ReverseActor.name)
 
@@ -34,10 +34,11 @@ trait ReverseRoute extends HttpService {
         implicit val timeout = Timeout(20 seconds)
 
         import akka.pattern.ask
+        import ReverseActor._
 
-        //TODO replace the next line by asking the actor to Reverse
-        //and converting (hint: mapping) the resulting Future[ReverseResult] to a Future[ReverseResponse]
-        val futureResponse = Future.successful(ReverseResponse(request.value.reverse))
+        val futureResponse = reverseActor.ask(Reverse(request.value))
+                                         .mapTo[ReverseResult]
+                                         .map(result => ReverseResponse(result.value))
 
         complete(futureResponse)
       }
